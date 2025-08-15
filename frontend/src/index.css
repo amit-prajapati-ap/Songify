@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dark-shade-1: #121212;
+  --color-dark-shade-2: #242424;
+  --color-gray-shade-1: #a7a7a7;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
