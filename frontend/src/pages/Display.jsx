@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { DisplayHome, DisplayAlbum, Music, Playlist, Navbar } from '../components/index'
 import {Routes, Route, useLocation} from 'react-router-dom'
-import { albumsData } from '../assets/frontend-assets/assets'
+import { albumsData } from '@/assets/frontend-assets/assets'
 
 const Display = () => {
   const displayRef = useRef()
@@ -24,7 +24,7 @@ const Display = () => {
   }, [albumId, isAlbum])
   
   return (
-    <div ref={displayRef} className="w-full m-2 px-6 pt-4 rounded bg-dark-shade-1 text-white overflow-auto lg:w-[75%] lg:ml-0">
+    <div ref={displayRef} className="w-full m-2 px-6 pt-4 rounded bg-dark-shade-1 text-white overflow-auto lg:ml-0">
       <Navbar/>
       <Routes>
         <Route path="/" element={<DisplayHome />}></Route>

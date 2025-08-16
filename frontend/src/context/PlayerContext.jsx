@@ -9,6 +9,7 @@ const PlayerContextProvider = (props) => {
   const seekBar = useRef();
   const [track, setTrack] = useState(songsData[0]);
   const [playerStatus, setPlayerStatus] = useState(false);
+  const [recentSongs, setRecentSongs] = useState([]);
   const [time, setTime] = useState({
     currentTime: {
       minutes: 0,
@@ -19,6 +20,22 @@ const PlayerContextProvider = (props) => {
       seconds: 0,
     },
   });
+  const [isLogin, setIsLogin] = useState(true)
+  const [user, setUser] = useState({
+    _id: 1,
+    name: 'Amit',
+    username: '@amit'
+  })
+  const token = localStorage.getItem('token') || '';
+
+  const login = () => setIsLogin(true)
+  const logout = () => setIsLogin(false)
+
+  const updateRecentSongs = (song) => {
+    console.log(recentSongs)
+    setRecentSongs([...(recentSongs.filter((s) => s !== song)), song]);
+    localStorage.setItem('recentSongs', JSON.stringify([...recentSongs, song]));
+  }
 
   const play = () => {
     audioRef.current.play();
@@ -34,6 +51,7 @@ const PlayerContextProvider = (props) => {
   const playWithId = async (id) => {
     await setTrack(songsData[id]);
     await audioRef.current.play();
+    updateRecentSongs(id);
     setPlayerStatus(true);
   }
   
@@ -78,6 +96,11 @@ const PlayerContextProvider = (props) => {
     }, 1000);
   }, [audioRef]);
 
+  useEffect(() => {
+    const recentSongs = JSON.parse(localStorage.getItem('recentSongs')) || [];
+    setRecentSongs(recentSongs);
+  }, [])
+
   const contextValue = {
     audioRef,
     seekBg,
@@ -93,7 +116,16 @@ const PlayerContextProvider = (props) => {
     playWithId,
     prev,
     next,
-    seekSong
+    seekSong,
+    isLogin,
+    setIsLogin,
+    user,
+    setUser,
+    token,
+    login,
+    logout,
+    recentSongs,
+    updateRecentSongs
   };
   return (
     <PlayerContext.Provider value={contextValue}>

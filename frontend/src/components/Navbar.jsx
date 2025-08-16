@@ -1,5 +1,6 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { assets } from "../assets/frontend-assets/assets"
+import { Profile } from "@/components/index";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Navbar = () => {
           <img onClick={() => navigate(1)} src={assets.arrow_right} className="w-8 bg-black p-2 rounded-2xl cursor-pointer" alt="" />
         </div>
         <div className="flex items-center gap-2">
-          <p className="bg-purple-500 text-black w-7 h-7 rounded-full flex items-center justify-center cursor-pointer">A</p>
+          <Profile/>
         </div>
 
       </div>

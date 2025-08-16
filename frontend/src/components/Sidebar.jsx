@@ -1,41 +1,173 @@
-import { useNavigate } from 'react-router-dom';
-import {assets} from '../assets/frontend-assets/assets'
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { GiHamburgerMenu } from "react-icons/gi";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useContext, useEffect, useState } from "react";
+import { PlayerContext } from "@/context/PlayerContext";
+import { songsData } from "@/assets/frontend-assets/assets";
+import { assets } from "@/assets/frontend-assets/assets";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
+  const {
+    logout,
+    isLogin,
+    user,
+    playWithId,
+    play,
+    pause,
+    playerStatus,
+    recentSongs,
+  } = useContext(PlayerContext);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [filteredRecents, setFilteredRecents] = useState([]);
+
+  useEffect(() => {
+    let foundRecents = recentSongs
+      .map((id) => songsData.find((song) => song.id === id))
+      .filter(Boolean); // remove undefined if an id doesn't exist
+
+    setFilteredRecents(foundRecents.reverse());
+  }, [recentSongs, songsData]);
+
   return (
-    <div className="w-[25%] h-full p-2 flex-col gap-2 text-white hidden lg:flex">
-      <div className="bg-dark-shade-1 h-[15%] rounded flex flex-col justify-around">
-        <div onClick={() => navigate('/')} className='flex items-center gap-3 pl-8 cursor-pointer'>
-          <img src={assets.home_icon} alt="" className='w-6' />
-          <p className='font-bold'>Home</p>
-        </div>
-        <div className='flex items-center gap-3 pl-8 cursor-pointer'>
-          <img src={assets.search_icon} alt="" className='w-6' />
-          <p className='font-bold'>Search</p>
-        </div>
-      </div>
+    <>
+      {isLogin && (
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              variant="outline"
+              className={
+                "cursor-pointer fixed right-5 top-6 hover:bg-black hover:text-white"
+              }
+            >
+              <GiHamburgerMenu />
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle className={"text-2xl"}>{user.name}</SheetTitle>
+              <SheetTitle className={"text-gray-300"}>
+                Username: {user.username}
+              </SheetTitle>
+            </SheetHeader>
+            <h1 className="text-2xl text-gray-100 px-4">Recents</h1>
+            <div className="grid flex-1 auto-rows-min gap-4 px-4 overflow-auto">
+              {filteredRecents.map((song, index) => (
+                <div
+                  onClick={() => {
+                    playWithId(song.id);
+                    setCurrentSong(song);
+                  }}
+                  key={index}
+                  className="flex items-center gap-4 cursor-pointer hover:bg-gray-800 transition-all duration-300"
+                >
+                  <img
+                    className="w-12 h-12 rounded"
+                    src={song.image}
+                    alt={song.name}
+                  />
+                  <div className="flex flex-col max-w-[300px]">
+                    <p>{song.name}</p>
+                    <p className="text-gray-400 text-sm">{song.desc}</p>
+                  </div>
 
-      <div className='bg-dark-shade-1 h-[85%] rounded'>
-        <div className='p-4 flex items-center justify-between'>
-          <div className='flex items-center gap-3'>
-            <img src={assets.stack_icon} className='w-8' alt="" />
-            <p className='font-semibold'>Your Library</p>
-          </div>
-          <div className='flex items-center gap-3'>
-            <img src={assets.arrow_icon} className='w-5' alt="" />
-            <img src={assets.plus_icon} className='w-5' alt="" />
-          </div>
-        </div>
+                  <div className="ml-auto pr-4">
+                    {currentSong?.id === song.id ? (
+                      playerStatus ? (
+                        // ✅ Pause when this song is active
+                        <img
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            pause(e);
+                          }}
+                          src={assets.pause_icon}
+                          alt="pause"
+                          className="w-4 cursor-pointer"
+                        />
+                      ) : (
+                        // ✅ Resume when this song is active but paused
+                        <img
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            play(e);
+                          }}
+                          src={assets.play_icon}
+                          alt="play"
+                          className="w-4 cursor-pointer"
+                        />
+                      )
+                    ) : (
+                      // ✅ Start playing a different song
+                      <img
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playWithId(song.id);
+                          setCurrentSong(song);
+                        }}
+                        src={assets.play_icon}
+                        alt="play"
+                        className="w-4 cursor-pointer"
+                      />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <SheetFooter>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={"bg-red-600 hover:text-white hover:bg-rose-600"}
+                  >
+                    Logout
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will logout your
+                      account.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={logout}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              <SheetClose asChild>
+                <Button variant="outline">Close</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      )}
+    </>
+  );
+};
 
-        <div className='p-4 bg-dark-shade-2 m-2 rounded font-semibold flex flex-col items-start justify-start gap-1'>
-          <h1>Create Playlist</h1>
-          <p className='font-light'>It's easy, we'll help you</p>
-          <button className='px-4 py-1.5 bg-white text-[15px] text-black rounded-full mt-4 cursor-pointer'>Create Playlist</button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default Sidebar
+export default Sidebar;

@@ -1,12 +1,13 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { assets } from "../assets/frontend-assets/assets"
 import { PlayerContext } from "../context/PlayerContext"
 
 const Player = () => {
   const {seekBar, seekBg, playerStatus, play, pause, track, time, next, prev, seekSong} = useContext(PlayerContext)
+  
   return (
     <div className="h-[10%] bg-gray-950 flex justify-between items-center text-white px-4">
-      <div className="hidden lg:flex items-center gap-4">
+      <div className="items-center gap-4 hidden md:flex">
         <img src={track.image} alt="" className="w-12" />
         <div>
           <p>{track.name}</p>
@@ -41,7 +42,7 @@ const Player = () => {
         </div>
       </div>
 
-      <div className="hidden lg:flex items-center gap-2 opacity-75 hover:opacity-100 transition-all duration-300">
+      <div className="flex items-center gap-2 opacity-75 hover:opacity-100 transition-all duration-300">
         <img src={assets.zoom_icon} className="w-4 cursor-pointer" alt="" />
       </div>
     </div>
