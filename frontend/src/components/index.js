@@ -8,7 +8,9 @@ import DisplayAlbum from "./DisplayAlbum";
 import Music from "./Music";
 import Playlist from "./Playlist";
 import Profile from "./Profile";
+import Favorite from "./Favorite";
+import SearchBar from "./SearchBar";
 
 export {
-  Sidebar, Player, DisplayHome, Navbar, AlbumItem, SongItem, DisplayAlbum, Music, Playlist, Profile
+  Sidebar, Player, DisplayHome, Navbar, AlbumItem, SongItem, DisplayAlbum, Music, Playlist, Profile, Favorite, SearchBar
 }

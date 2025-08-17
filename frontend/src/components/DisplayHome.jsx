@@ -4,7 +4,7 @@ import { AlbumItem, SongItem } from "./index";
 const DisplayHome = () => {
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-4 ">
         <h1 className="my-5 font-bold text-2xl">Featured Charts</h1>
         <div className="flex overflow-auto">
           {albumsData.map((album, index) => (

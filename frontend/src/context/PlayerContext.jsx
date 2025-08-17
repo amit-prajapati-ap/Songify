@@ -10,6 +10,7 @@ const PlayerContextProvider = (props) => {
   const [track, setTrack] = useState(songsData[0]);
   const [playerStatus, setPlayerStatus] = useState(false);
   const [recentSongs, setRecentSongs] = useState([]);
+  const [favorites, setFavorites] = useState([])
   const [time, setTime] = useState({
     currentTime: {
       minutes: 0,
@@ -37,6 +38,21 @@ const PlayerContextProvider = (props) => {
     localStorage.setItem('recentSongs', JSON.stringify([...recentSongs, song]));
   }
 
+  const addFavorite = (songId) => {
+    setFavorites([...favorites, songId]);
+    localStorage.setItem('favorites', JSON.stringify([...favorites, songId]));
+  }
+
+  const removeFavorite = (songId) => {
+    setFavorites(favorites.filter((song) => song !== songId));
+    localStorage.setItem('favorites', JSON.stringify(favorites.filter((song) => song !== songId)));
+  }
+
+  const fetchFavorites = () => {
+    const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+    setFavorites(favs);
+  }
+
   const play = () => {
     audioRef.current.play();
     setPlayerStatus(true);
@@ -45,6 +61,10 @@ const PlayerContextProvider = (props) => {
   const pause = () => {
     audioRef.current.pause();
     setPlayerStatus(false);
+  };
+
+  const repeat = async () => {
+    audioRef.current.currentTime = 0;
   };
 
   
@@ -99,6 +119,7 @@ const PlayerContextProvider = (props) => {
   useEffect(() => {
     const recentSongs = JSON.parse(localStorage.getItem('recentSongs')) || [];
     setRecentSongs(recentSongs);
+    fetchFavorites();
   }, [])
 
   const contextValue = {
@@ -125,7 +146,11 @@ const PlayerContextProvider = (props) => {
     login,
     logout,
     recentSongs,
-    updateRecentSongs
+    updateRecentSongs,
+    favorites,
+    addFavorite,
+    removeFavorite,
+    repeat
   };
   return (
     <PlayerContext.Provider value={contextValue}>

@@ -17,7 +17,7 @@ const Music = () => {
       <hr />
       {
         songs.map((song, index) => (
-          <div onClick={() => playWithId(song.id)} key={index} className='grid grid-cols-3 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1'>
+          <div onClick={() => playWithId(song.id)} key={index} className='grid grid-cols-3 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1 border-b border-zinc-700'>
             <p className='text-white flex items-center'>
               <b className='mr-4 text-gray-shade-1'>{index + 1}</b>
               <img src={song.image} className='w-10 mr-5 hidden sm:inline' alt="" />

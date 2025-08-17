@@ -49,7 +49,7 @@ const DisplayAlbum = () => {
         <div
           onClick={() => playWithId(song.id)}
           key={index}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1 border-b border-zinc-700"
         >
           <p className="text-white flex items-center">
             <b className="mr-4 text-gray-shade-1">{index + 1}</b>

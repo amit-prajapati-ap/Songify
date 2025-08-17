@@ -55,7 +55,7 @@ const Sidebar = () => {
             <Button
               variant="outline"
               className={
-                "cursor-pointer fixed right-5 top-6 hover:bg-black hover:text-white"
+                "cursor-pointer fixed right-5 top-5 sm:top-8 hover:bg-black hover:text-white"
               }
             >
               <GiHamburgerMenu />

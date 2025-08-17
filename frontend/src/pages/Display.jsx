@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { DisplayHome, DisplayAlbum, Music, Playlist, Navbar } from '../components/index'
+import { DisplayHome, DisplayAlbum, Music, Playlist, Navbar, Favorite } from '../components/index'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import { albumsData } from '@/assets/frontend-assets/assets'
 
@@ -31,6 +31,7 @@ const Display = () => {
         <Route path="/album/:id" element={<DisplayAlbum />}></Route>
         <Route path="/music" element={<Music />}></Route>
         <Route path="/playlist" element={<Playlist />}></Route>
+        <Route path="/favorite" element={<Favorite />}></Route>
       </Routes>
     </div>
   )

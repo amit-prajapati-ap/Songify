@@ -1,9 +1,24 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { assets } from "../assets/frontend-assets/assets"
 import { PlayerContext } from "../context/PlayerContext"
+import { Heart } from "lucide-react"
 
 const Player = () => {
-  const {seekBar, seekBg, playerStatus, play, pause, track, time, next, prev, seekSong} = useContext(PlayerContext)
+  const {seekBar, seekBg, playerStatus, play, pause, track, time, next, prev, seekSong, favorites, addFavorite, removeFavorite, repeat} = useContext(PlayerContext)
+  const [favorite, setFavorite] = useState('')
+
+  const toggleFavorite = () => {
+    console.log(favorite)
+    if (favorite.toString()) {
+      removeFavorite(favorite)
+    } else {
+      addFavorite(track.id)
+    }
+  }
+
+  useEffect(() => {
+    setFavorite(favorites.includes(track.id) ? track.id : '')
+  }, [favorites, track.id])
   
   return (
     <div className="h-[10%] bg-gray-950 flex justify-between items-center text-white px-4">
@@ -27,7 +42,8 @@ const Player = () => {
           )}
 
           <img onClick={next} src={assets.next_icon} alt="" className="w-4 cursor-pointer" />
-          <img src={assets.loop_icon} alt="" className="w-4 cursor-pointer" />
+          <img onClick={() => repeat(track.id)} src={assets.loop_icon} alt="" className="w-4 cursor-pointer" />
+          <p className="w-4 cursor-pointer"><Heart size={18} className={`${favorite.toString() && "fill-cyan-500 text-transparent"}`} onClick={toggleFavorite}/></p>
         </div>
         <div className={`flex items-center gap-5 ${time.totalTime.seconds === 0 && time.totalTime.minutes === 0 && "hidden"}`}>
           <p>0{time.currentTime.minutes} : {time.currentTime.seconds < 10 ? "0" : ""}{time.currentTime.seconds}</p>
