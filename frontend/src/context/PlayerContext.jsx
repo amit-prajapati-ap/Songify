@@ -7,10 +7,11 @@ const PlayerContextProvider = (props) => {
   const audioRef = useRef();
   const seekBg = useRef();
   const seekBar = useRef();
+  const firstRender = useRef(true);
   const [track, setTrack] = useState(songsData[0]);
   const [playerStatus, setPlayerStatus] = useState(false);
   const [recentSongs, setRecentSongs] = useState([]);
-  const [favorites, setFavorites] = useState([])
+  const [favorites, setFavorites] = useState([]);
   const [time, setTime] = useState({
     currentTime: {
       minutes: 0,
@@ -21,37 +22,40 @@ const PlayerContextProvider = (props) => {
       seconds: 0,
     },
   });
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(true);
   const [user, setUser] = useState({
     _id: 1,
-    name: 'Amit',
-    username: '@amit'
-  })
-  const token = localStorage.getItem('token') || '';
+    name: "Amit",
+    username: "@amit",
+  });
+  const token = localStorage.getItem("token") || "";
 
-  const login = () => setIsLogin(true)
-  const logout = () => setIsLogin(false)
+  const login = () => setIsLogin(true);
+  const logout = () => setIsLogin(false);
 
   const updateRecentSongs = (song) => {
-    console.log(recentSongs)
-    setRecentSongs([...(recentSongs.filter((s) => s !== song)), song]);
-    localStorage.setItem('recentSongs', JSON.stringify([...recentSongs, song]));
-  }
+    console.log(recentSongs);
+    setRecentSongs([...recentSongs.filter((s) => s !== song), song]);
+    localStorage.setItem("recentSongs", JSON.stringify([...recentSongs, song]));
+  };
 
   const addFavorite = (songId) => {
     setFavorites([...favorites, songId]);
-    localStorage.setItem('favorites', JSON.stringify([...favorites, songId]));
-  }
+    localStorage.setItem("favorites", JSON.stringify([...favorites, songId]));
+  };
 
   const removeFavorite = (songId) => {
     setFavorites(favorites.filter((song) => song !== songId));
-    localStorage.setItem('favorites', JSON.stringify(favorites.filter((song) => song !== songId)));
-  }
+    localStorage.setItem(
+      "favorites",
+      JSON.stringify(favorites.filter((song) => song !== songId))
+    );
+  };
 
   const fetchFavorites = () => {
-    const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
     setFavorites(favs);
-  }
+  };
 
   const play = () => {
     audioRef.current.play();
@@ -65,62 +69,76 @@ const PlayerContextProvider = (props) => {
 
   const repeat = async () => {
     audioRef.current.currentTime = 0;
+    play();
   };
 
-  
   const playWithId = async (id) => {
     await setTrack(songsData[id]);
     await audioRef.current.play();
     updateRecentSongs(id);
     setPlayerStatus(true);
-  }
-  
-  const prev = async () => {
+  };
+
+  const prev = () => {
     if (track.id > 0) {
-      await setTrack(songsData[track.id - 1]);
-      await audioRef.current.play();
-      setPlayerStatus(true);
+      playWithId(track.id - 1);
     }
-  }
-  const next = async () => {
+  };
+  const next = () => {
     if (track.id < songsData.length - 1) {
-      await setTrack(songsData[track.id + 1]);
-      await audioRef.current.play();
-      setPlayerStatus(true);
+      playWithId(track.id + 1);
     }
-  }
-  
+  };
+
   const seekSong = async (e) => {
-    audioRef.current.currentTime = ((e.nativeEvent.offsetX / e.target.offsetWidth) * audioRef.current.duration).toFixed(2);
-  }
-  
+    audioRef.current.currentTime = (
+      (e.nativeEvent.offsetX / e.target.offsetWidth) *
+      audioRef.current.duration
+    ).toFixed(2);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       audioRef.current.ontimeupdate = () => {
-
-        seekBar.current.style.width = `${(audioRef.current.currentTime / audioRef.current.duration) * 100}%`;
+        seekBar.current.style.width = `${
+          (audioRef.current.currentTime / audioRef.current.duration) * 100
+        }%`;
         setTime({
           currentTime: {
-            minutes: Math.floor(audioRef.current.currentTime/60),
-            seconds: Math.floor(audioRef.current.currentTime%60),
+            minutes: Math.floor(audioRef.current.currentTime / 60),
+            seconds: Math.floor(audioRef.current.currentTime % 60),
           },
           totalTime: {
-            minutes: Math.floor(audioRef.current.duration/60),
-            seconds: Math.floor(audioRef.current.duration%60),
+            minutes: Math.floor(audioRef.current.duration / 60),
+            seconds: Math.floor(audioRef.current.duration % 60),
           },
         });
-        if (audioRef.current.currentTime === audioRef.current.duration) {
-          setPlayerStatus(false);
-        }
+      };
+
+      audioRef.current.onended = () => {
+        setPlayerStatus(false);
       };
     }, 1000);
+
   }, [audioRef]);
 
   useEffect(() => {
-    const recentSongs = JSON.parse(localStorage.getItem('recentSongs')) || [];
+    if (firstRender.current) {
+      firstRender.current = false;
+      return; // ⛔ skip autoplay on initial load
+    }
+
+    if (track && audioRef.current) {
+      audioRef.current.load();
+      play();
+    }
+  }, [track]);
+
+  useEffect(() => {
+    const recentSongs = JSON.parse(localStorage.getItem("recentSongs")) || [];
     setRecentSongs(recentSongs);
     fetchFavorites();
-  }, [])
+  }, []);
 
   const contextValue = {
     audioRef,
@@ -150,7 +168,7 @@ const PlayerContextProvider = (props) => {
     favorites,
     addFavorite,
     removeFavorite,
-    repeat
+    repeat,
   };
   return (
     <PlayerContext.Provider value={contextValue}>

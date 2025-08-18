@@ -48,7 +48,7 @@ const Navbar = () => {
         </div>
       </div>
       {!isAlbum && (
-        <div className="flex items-center gap-2 mt-4">
+        <div className="flex items-center gap-2 max-[390px]:gap-1 mt-4">
           <NavLink
             to={"/"}
             className={({ isActive }) =>

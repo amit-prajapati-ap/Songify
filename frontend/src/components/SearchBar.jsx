@@ -14,7 +14,10 @@ const SearchBar = () => {
       </div>
       <div className="absolute flex flex-col gap-2 bg-zinc-800 mt-5 max-h-128 overflow-auto w-full mx-auto left-0 right-0 rounded-lg z-50">
         {searchText && songsData.filter(song => song.name.toLowerCase().includes(searchText.toLowerCase())).map((song, index) => (
-          <div onClick={() => playWithId(song.id)} key={index} className='flex justify-between px-4 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1 border-b border-zinc-700'>
+          <div onClick={() => {
+            playWithId(song.id)
+            setSearchText('')
+          }} key={index} className='flex justify-between px-4 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1 border-b border-zinc-700'>
             <p className='text-white flex items-center'>
               <img src={song.image} className='w-10 mr-5 hidden sm:inline' alt="" />
               <div className="flex flex-col gap-1">

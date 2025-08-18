@@ -61,13 +61,14 @@ const Sidebar = () => {
               <GiHamburgerMenu />
             </Button>
           </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
+          <SheetContent side="left" className={'max-[450px]:w-full'}>
+            <SheetHeader className={'bg-gradient-to-tl from-pink-500 to-blue-500'}>
               <SheetTitle className={"text-2xl"}>{user.name}</SheetTitle>
-              <SheetTitle className={"text-gray-300"}>
+              <SheetTitle className={"text-gray-300 text-lg leading-3"}>
                 Username: {user.username}
               </SheetTitle>
             </SheetHeader>
+            <hr />
             <h1 className="text-2xl text-gray-100 px-4">Recents</h1>
             <div className="grid flex-1 auto-rows-min gap-4 px-4 overflow-auto">
               {filteredRecents.map((song, index) => (
@@ -77,19 +78,19 @@ const Sidebar = () => {
                     setCurrentSong(song);
                   }}
                   key={index}
-                  className="flex items-center gap-4 cursor-pointer hover:bg-gray-800 transition-all duration-300"
-                >
+                  className="flex items-center py-1 px-2 rounded-md gap-4 cursor-pointer hover:bg-gray-800 transition-all duration-300"
+                 >
                   <img
                     className="w-12 h-12 rounded"
                     src={song.image}
                     alt={song.name}
                   />
                   <div className="flex flex-col max-w-[300px]">
-                    <p>{song.name}</p>
-                    <p className="text-gray-400 text-sm">{song.desc}</p>
+                    <p className="line-clamp-1">{song.name}</p>
+                    <p className="text-gray-400 text-sm line-clamp-2">{song.desc}</p>
                   </div>
 
-                  <div className="ml-auto pr-4">
+                  <div className="ml-auto min-w-14 flex justify-end">
                     {currentSong?.id === song.id ? (
                       playerStatus ? (
                         // ✅ Pause when this song is active
@@ -132,6 +133,7 @@ const Sidebar = () => {
               ))}
             </div>
             <SheetFooter>
+              <hr />
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button

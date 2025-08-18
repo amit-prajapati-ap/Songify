@@ -24,7 +24,7 @@ const Display = () => {
   }, [albumId, isAlbum])
   
   return (
-    <div ref={displayRef} className="w-full m-2 px-6 pt-4 rounded bg-dark-shade-1 text-white overflow-auto lg:ml-0">
+    <div ref={displayRef} className="w-full m-2 sm:px-6 p-2 pt-4 rounded bg-dark-shade-1 text-white overflow-auto lg:ml-0">
       <Navbar/>
       <Routes>
         <Route path="/" element={<DisplayHome />}></Route>
