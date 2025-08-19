@@ -62,15 +62,14 @@ const Sidebar = () => {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className={'max-[450px]:w-full'}>
-            <SheetHeader className={'bg-gradient-to-tl from-pink-500 to-blue-500'}>
+            <SheetHeader className={'bg-gradient-to-r from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a]'}>
               <SheetTitle className={"text-2xl"}>{user.name}</SheetTitle>
               <SheetTitle className={"text-gray-300 text-lg leading-3"}>
                 Username: {user.username}
               </SheetTitle>
             </SheetHeader>
-            <hr />
             <h1 className="text-2xl text-gray-100 px-4">Recents</h1>
-            <div className="grid flex-1 auto-rows-min gap-4 px-4 overflow-auto">
+            <div className="grid flex-1 bg-slate-950 auto-rows-min gap-4 px-4 overflow-auto">
               {filteredRecents.map((song, index) => (
                 <div
                   onClick={() => {

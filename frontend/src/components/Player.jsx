@@ -20,6 +20,7 @@ const Player = () => {
     addFavorite,
     removeFavorite,
     repeat,
+    seekBarFullScreen
   } = useContext(PlayerContext);
   const [favorite, setFavorite] = useState("");
   const [fullScreen, setFullScreen] = useState(false);
@@ -56,7 +57,7 @@ const Player = () => {
     <>
       <div
         onClick={smallScreenEnableFullScreen}
-        className="h-[10%] bg-purple-600 sm:bg-fuchsia-700 flex justify-between gap-4 items-center text-white px-4"
+        className="h-[10%] bg-gradient-to-r from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] flex justify-between gap-4 items-center text-white px-4"
       >
         <div className="items-center gap-4 flex w-[50%] sm:w-[150px]">
           <img src={track.image} alt="" className="w-12 max-sm:rounded-full" />
@@ -145,7 +146,7 @@ const Player = () => {
             <div
               onClick={seekSong}
               ref={seekBg}
-              className="w-[60vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer"
+              className="w-[60vw] max-w-[500px] mt-2 bg-gray-300 rounded-full cursor-pointer"
             >
               <hr
                 ref={seekBar}
@@ -176,6 +177,21 @@ const Player = () => {
         <FullScreenPlayer
           fullScreen={fullScreen}
           disableFullScreen={disableFullScreen}
+          track={track}
+          time={time}
+          playerStatus={playerStatus}
+          play={play}
+          pause={pause}
+          next={next}
+          prev={prev}
+          seekSong={seekSong}
+          favorites={favorites}
+          addFavorite={addFavorite}
+          removeFavorite={removeFavorite}
+          repeat={repeat}
+          favorite={favorite}
+          setFavorite={setFavorite}
+          seekBarFullScreen={seekBarFullScreen}
         />
       )}
     </>

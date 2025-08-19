@@ -7,6 +7,7 @@ const PlayerContextProvider = (props) => {
   const audioRef = useRef();
   const seekBg = useRef();
   const seekBar = useRef();
+  const seekBarFullScreen = useRef();
   const firstRender = useRef(true);
   const [track, setTrack] = useState(songsData[0]);
   const [playerStatus, setPlayerStatus] = useState(false);
@@ -103,6 +104,9 @@ const PlayerContextProvider = (props) => {
         seekBar.current.style.width = `${
           (audioRef.current.currentTime / audioRef.current.duration) * 100
         }%`;
+        seekBarFullScreen.current.style.width = `${
+          (audioRef.current.currentTime / audioRef.current.duration) * 100
+        }%`;
         setTime({
           currentTime: {
             minutes: Math.floor(audioRef.current.currentTime / 60),
@@ -169,6 +173,7 @@ const PlayerContextProvider = (props) => {
     addFavorite,
     removeFavorite,
     repeat,
+    seekBarFullScreen
   };
   return (
     <PlayerContext.Provider value={contextValue}>

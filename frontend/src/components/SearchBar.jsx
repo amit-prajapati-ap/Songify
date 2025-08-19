@@ -12,7 +12,7 @@ const SearchBar = () => {
         <input value={searchText} onChange={(e) => setSearchText(e.target.value)} type="search" placeholder="Search Songify" className="w-full hover:outline-none border py-3 px-4 rounded-full font-medium placeholder:text-zinc-400 focus:outline-none max-sm:bg-zinc-800"/>
         { searchText && <div onClick={() => setSearchText('')} className="absolute right-0 top-0 bottom-0 flex items-center pr-4 cursor-pointer"><X className="text-zinc-400"/></div>}
       </div>
-      <div className="absolute flex flex-col gap-2 bg-zinc-800 mt-5 max-h-128 overflow-auto w-full mx-auto left-0 right-0 rounded-lg z-50">
+      <div className="absolute flex flex-col gap-2 bg-gray-950 mt-5 max-h-128 overflow-auto w-full mx-auto left-0 right-0 rounded-lg z-50">
         {searchText && songsData.filter(song => song.name.toLowerCase().includes(searchText.toLowerCase())).map((song, index) => (
           <div onClick={() => {
             playWithId(song.id)
