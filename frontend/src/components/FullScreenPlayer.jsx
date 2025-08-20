@@ -20,7 +20,8 @@ const FullScreenPlayer = ({
   prev,
   repeat,
   disableFullScreen,
-  seekBarFullScreen
+  seekBarFullScreen,
+  progress
 }) => {
   const [toggleToLyrics, setToggleToLyrics] = useState(false);
 
@@ -36,10 +37,6 @@ const FullScreenPlayer = ({
   useEffect(() => {
     setFavorite(favorites.includes(track.id) ? track.id : "");
   }, [favorites, track.id]);
-
-  useEffect(() => {
-    console.log("hello");
-  }, []);
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-tl from-[#1a002c] via-[#2a003f] to-[#a0006d] z-50">
       <div className="max-w-5xl mx-auto flex flex-col gap-10 p-4">
@@ -78,9 +75,9 @@ const FullScreenPlayer = ({
           </div>
           
         </div>
-        <div className="my-10">
+        <div className="my-10 sm:px-10">
           <div
-            className={`flex items-center w-[80vw] mx-auto justify-center relative gap-5`}
+            className={`flex items-center mx-auto justify-center relative gap-5`}
           >
             <Heart
               size={30}
@@ -97,11 +94,12 @@ const FullScreenPlayer = ({
             <div
               onClick={seekSong}
               ref={seekBg}
-              className="w-[80vw] mt-2 bg-gray-300 rounded-full cursor-pointer"
+              className="w-full mt-2 bg-gray-300 rounded-full cursor-pointer"
             >
               <hr
                 ref={seekBarFullScreen}
-                className="h-1 border-none w-10 bg-cyan-500 rounded-full"
+                style={{ width: `${progress}%` }}
+                className="h-1 border-none bg-cyan-500 rounded-full"
               />
             </div>
             <p className="absolute right-0 -top-6">
@@ -170,9 +168,6 @@ const FullScreenPlayer = ({
             className="w-6 cursor-pointer"
           />
         </div>
-      </div>
-      <div className="fixed bottom-2 left-1/2 -translate-x-1/2 w-full px-5 font-semibold text-xl text-center">
-        Made with ❤️ by {"Amit Prajapati and Sandeep"}
       </div>
     </div>
   );

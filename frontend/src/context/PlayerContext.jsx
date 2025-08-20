@@ -13,6 +13,7 @@ const PlayerContextProvider = (props) => {
   const [playerStatus, setPlayerStatus] = useState(false);
   const [recentSongs, setRecentSongs] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [progress, setProgress] = useState(0);
   const [time, setTime] = useState({
     currentTime: {
       minutes: 0,
@@ -99,32 +100,28 @@ const PlayerContextProvider = (props) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      audioRef.current.ontimeupdate = () => {
-        seekBar.current.style.width = `${
-          (audioRef.current.currentTime / audioRef.current.duration) * 100
-        }%`;
-        seekBarFullScreen.current.style.width = `${
-          (audioRef.current.currentTime / audioRef.current.duration) * 100
-        }%`;
-        setTime({
-          currentTime: {
-            minutes: Math.floor(audioRef.current.currentTime / 60),
-            seconds: Math.floor(audioRef.current.currentTime % 60),
-          },
-          totalTime: {
-            minutes: Math.floor(audioRef.current.duration / 60),
-            seconds: Math.floor(audioRef.current.duration % 60),
-          },
-        });
-      };
+    const audio = audioRef.current;
+    if (!audio) return;
 
-      audioRef.current.onended = () => {
-        setPlayerStatus(false);
-      };
-    }, 1000);
+    audio.ontimeupdate = () => {
+      const newProgress = (audio.currentTime / audio.duration) * 100;
+      setProgress(newProgress);
+      setTime({
+        currentTime: {
+          minutes: Math.floor(audioRef.current.currentTime / 60),
+          seconds: Math.floor(audioRef.current.currentTime % 60),
+        },
+        totalTime: {
+          minutes: Math.floor(audioRef.current.duration / 60),
+          seconds: Math.floor(audioRef.current.duration % 60),
+        },
+      });
+    };
 
-  }, [audioRef]);
+    audio.onended = () => {
+      setPlayerStatus(false);
+    };
+  }, []);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -173,7 +170,8 @@ const PlayerContextProvider = (props) => {
     addFavorite,
     removeFavorite,
     repeat,
-    seekBarFullScreen
+    seekBarFullScreen,
+    progress
   };
   return (
     <PlayerContext.Provider value={contextValue}>
