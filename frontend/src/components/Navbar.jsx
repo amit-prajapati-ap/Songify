@@ -11,7 +11,7 @@ const Navbar = () => {
   const isAlbum = location.pathname.includes("album");
   return (
     <>
-      <div className="w-full flex justify-between items-center font-semibold">
+      <div className="w-full flex justify-between items-center font-semibold relative">
         <div className="flex items-center gap-2 w-[15%]">
           <img
             onClick={() => navigate(-1)}
@@ -27,7 +27,7 @@ const Navbar = () => {
           />
         </div>
         <div
-          className={`flex justify-end w-[70%] mb-1 sm:hidden`}
+          className={`flex justify-end max-[500px]:pr-5 w-[70%] mb-1 sm:hidden`}
         >
           {isSearching ? (
             <div onClick={() => setIsSearching(false)} className="flex items-center cursor-pointer"><X size={30} className="text-zinc-400"/></div>
@@ -43,7 +43,7 @@ const Navbar = () => {
         <div className="hidden sm:w-[60%] sm:block">
           <SearchBar />
         </div>
-        <div className="flex items-center gap-2 w-[10%]">
+        <div className="flex items-center gap-2 ml-5">
           <Profile />
         </div>
       </div>

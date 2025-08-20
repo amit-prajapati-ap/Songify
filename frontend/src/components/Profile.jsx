@@ -45,7 +45,7 @@ const Profile = () => {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="text-black bg-white cursor-pointer fixed right-5 top-6"
+                className="text-black bg-white cursor-pointer"
               >
                 Login
               </Button>

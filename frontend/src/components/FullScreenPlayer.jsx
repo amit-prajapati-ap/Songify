@@ -1,6 +1,6 @@
 import { assets } from "@/assets/frontend-assets/assets";
-import { ChevronLeft, Heart, MoreHorizontalIcon, PlusIcon } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { ChevronLeft, Heart, MoreHorizontalIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const FullScreenPlayer = ({
   track,
@@ -13,7 +13,6 @@ const FullScreenPlayer = ({
   play,
   playerStatus,
   seekSong,
-  seekBar,
   seekBg,
   time,
   next,

@@ -57,7 +57,7 @@ const Player = () => {
     <>
       <div
         onClick={smallScreenEnableFullScreen}
-        className="h-[10%] bg-gradient-to-r from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] py-2"
+        className="fixed h-25 bottom-0 w-full bg-gradient-to-r from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] py-2"
       >
         <div className="w-full flex justify-between gap-4 items-center text-white px-4">
           <div className="items-center gap-4 flex w-[50%] sm:w-[150px]">

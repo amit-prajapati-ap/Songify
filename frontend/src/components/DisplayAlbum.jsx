@@ -36,31 +36,29 @@ const DisplayAlbum = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mt-10 mb-4 pl-2 text-gray-shade-1">
-        <p>
+      <div className="grid grid-cols-4 mt-10 mb-4 pl-2 text-gray-shade-1">
+        <p className="col-span-3 md:col-span-2">
           <b className="mr-4">#</b>Title
         </p>
-        <p className="hidden sm:block">Album</p>
         <p className="hidden md:block">Date Added</p>
-        <img src={assets.clock_icon} className="m-auto w-4" alt="" />
+        <img src={assets.clock_icon} className="m-auto w-4 justify-self-end" alt="" />
       </div>
       <hr />
       {songsData.map((song, index) => (
         <div
           onClick={() => playWithId(song.id)}
           key={index}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1 border-b border-zinc-700"
+          className="grid grid-cols-4 gap-2 p-2 items-center hover:bg-dark-shade-2 cursor-pointer text-gray-shade-1 border-b border-zinc-700"
         >
-          <p className="text-white flex items-center">
+          <p className="text-white flex items-center col-span-3 md:col-span-2">
             <b className="mr-4 text-gray-shade-1">{index + 1}</b>
             <img
               src={song.image}
-              className="inline w-10 mr-5 max-[440px]:hidden"
+              className="inline w-10 mr-5"
               alt=""
             />
             <p className="line-clamp-1">{song.name}</p>
           </p>
-          <p className="text-[15px] hidden sm:block">{song.name}</p>
           <p className="text-[15px] hidden md:block">5 days ago</p>
           <p className="text-[15px] text-center">{song.duration}</p>
         </div>

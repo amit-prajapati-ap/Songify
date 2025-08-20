@@ -1,6 +1,6 @@
 import { songsData } from "@/assets/frontend-assets/assets"
 import { PlayerContext } from "@/context/PlayerContext"
-import { Cross, X } from "lucide-react"
+import { X } from "lucide-react"
 import { useContext, useState } from "react"
 
 const SearchBar = () => {
