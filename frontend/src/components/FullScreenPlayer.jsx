@@ -1,6 +1,7 @@
 import { assets } from "@/assets/frontend-assets/assets";
 import { ChevronLeft, Heart, MoreHorizontalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { FullScreenMenu } from ".";
 
 const FullScreenPlayer = ({
   track,
@@ -46,7 +47,7 @@ const FullScreenPlayer = ({
             size={32}
           />
           <p className="text-2xl font-semibold">Now Playing</p>
-          <MoreHorizontalIcon className="cursor-pointer" size={32} />
+          <FullScreenMenu disableFullScreen={disableFullScreen} setToggleToLyrics={setToggleToLyrics} toggleToLyrics={toggleToLyrics}/>
         </div>
         <div className="flex items-center gap-4 justify-center">
           {!toggleToLyrics && (
@@ -105,7 +106,7 @@ const FullScreenPlayer = ({
               {String(
                 isNaN(time?.totalTime?.minutes) ? 0 : time.totalTime.minutes
               ).padStart(2, "0")}{" "}
-              :
+              :{" "}
               {String(
                 isNaN(time?.totalTime?.seconds) ? 0 : time.totalTime.seconds
               ).padStart(2, "0")}

@@ -11,7 +11,8 @@ import Profile from "./Profile";
 import Favorite from "./Favorite";
 import SearchBar from "./SearchBar";
 import FullScreenPlayer from "./FullScreenPlayer";
+import FullScreenMenu from "./FullScreenMenu";
 
 export {
-  Sidebar, Player, DisplayHome, Navbar, AlbumItem, SongItem, DisplayAlbum, Music, Playlist, Profile, Favorite, SearchBar, FullScreenPlayer
+  Sidebar, Player, DisplayHome, Navbar, AlbumItem, SongItem, DisplayAlbum, Music, Playlist, Profile, Favorite, SearchBar, FullScreenPlayer, FullScreenMenu
 }
