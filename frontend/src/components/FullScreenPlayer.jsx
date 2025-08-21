@@ -129,27 +129,29 @@ const FullScreenPlayer = ({
             className="w-7 cursor-pointer"
           />
 
-          {playerStatus ? (
-            <img
-              onClick={(e) => {
-                e.stopPropagation();
-                pause();
-              }}
-              src={assets.pause_icon}
-              alt=""
-              className="w-10 cursor-pointer"
-            />
-          ) : (
-            <img
-              onClick={(e) => {
-                e.stopPropagation();
-                play();
-              }}
-              src={assets.play_icon}
-              alt=""
-              className="w-10 cursor-pointer"
-            />
-          )}
+          <div className="bg-cyan-500 rounded-full p-4">
+            {playerStatus ? (
+              <img
+                onClick={(e) => {
+                  e.stopPropagation();
+                  pause();
+                }}
+                src={assets.pause_icon}
+                alt=""
+                className="w-10 cursor-pointer"
+              />
+            ) : (
+              <img
+                onClick={(e) => {
+                  e.stopPropagation();
+                  play();
+                }}
+                src={assets.play_icon}
+                alt=""
+                className="w-10 cursor-pointer"
+              />
+            )}
+          </div>
 
           <img
             onClick={(e) => {

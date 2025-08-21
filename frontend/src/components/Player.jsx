@@ -180,7 +180,7 @@ const Player = () => {
         </div>
 
         <div className="relative">
-          <p className="absolute max-sm:left-5 left-1/2 sm:-translate-x-1/4 top-2">Made by ❤️ Amit Prajapati & Sandeep</p>
+          <p className="sm:absolute max-sm:left-5 left-1/2 sm:-translate-x-1/4 top-2 text-xs max-sm:text-center max-sm:pt-3">Made by ❤️ Amit Prajapati & Sandeep</p>
         </div>
       </div>
 
