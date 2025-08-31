@@ -3,6 +3,8 @@ import { assets } from "../assets/frontend-assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
 import { Heart } from "lucide-react";
 import { FullScreenPlayer } from ".";
+import { toast } from "react-toastify";
+import { toastOptions } from "@/constants";
 
 const Player = () => {
   const {
@@ -21,7 +23,8 @@ const Player = () => {
     removeFavorite,
     repeat,
     seekBarFullScreen,
-    progress
+    progress,
+    songifyUser,
   } = useContext(PlayerContext);
   const [favorite, setFavorite] = useState("");
   const [fullScreen, setFullScreen] = useState(false);
@@ -31,6 +34,10 @@ const Player = () => {
     if (favorite.toString()) {
       removeFavorite(favorite);
     } else {
+      if (songifyUser === null) {
+        toast.error("You are not logged in", toastOptions);
+        return
+      };
       addFavorite(track.id);
     }
   };
@@ -180,7 +187,7 @@ const Player = () => {
         </div>
 
         <div className="relative">
-          <p className="sm:absolute max-sm:left-5 left-1/2 sm:-translate-x-1/4 top-2 text-xs max-sm:text-center max-sm:pt-3">Made by ❤️ Amit Prajapati & Sandeep</p>
+          <p className="sm:absolute max-sm:left-5 left-1/2 sm:pl-10 sm:-translate-x-1/4 top-2 text-xs max-sm:text-center max-sm:pt-3">Made by ❤️ Amit Prajapati</p>
         </div>
       </div>
 
@@ -204,6 +211,7 @@ const Player = () => {
           setFavorite={setFavorite}
           seekBarFullScreen={seekBarFullScreen}
           progress={progress}
+          songifyUser={songifyUser}
         />
       )}
     </>

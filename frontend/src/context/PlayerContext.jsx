@@ -1,5 +1,6 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import { songsData } from "../assets/frontend-assets/assets";
+import { getUserWithLocalStorage, loginWithLocalStorage, logoutWithLocalStorage } from "@/api/auth_api";
 
 export const PlayerContext = createContext();
 
@@ -14,6 +15,7 @@ const PlayerContextProvider = (props) => {
   const [recentSongs, setRecentSongs] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [progress, setProgress] = useState(0);
+  const [songifyUser, setSongifyUser] = useState(null);
   const [time, setTime] = useState({
     currentTime: {
       minutes: 0,
@@ -24,7 +26,7 @@ const PlayerContextProvider = (props) => {
       seconds: 0,
     },
   });
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({
     _id: 1,
     name: "Amit",
@@ -32,14 +34,22 @@ const PlayerContextProvider = (props) => {
   });
   const token = localStorage.getItem("token") || "";
 
-  const login = () => setIsLogin(true);
-  const logout = () => setIsLogin(false);
+  const login = ({username, password}) => {
+    loginWithLocalStorage({username, password})
+  }
+  const logout = () => {
+    const loguotSuccess = logoutWithLocalStorage()
+    if (loguotSuccess) {
+      setIsLogin(false)
+    }
+  };
 
   const updateRecentSongs = (song) => {
     console.log(recentSongs);
     setRecentSongs([...recentSongs.filter((s) => s !== song), song]);
     localStorage.setItem("recentSongs", JSON.stringify([...recentSongs, song]));
   };
+
 
   const addFavorite = (songId) => {
     setFavorites([...favorites, songId]);
@@ -138,7 +148,12 @@ const PlayerContextProvider = (props) => {
   useEffect(() => {
     const recentSongs = JSON.parse(localStorage.getItem("recentSongs")) || [];
     setRecentSongs(recentSongs);
-    fetchFavorites();
+    getUserWithLocalStorage().then((res) => {
+      setSongifyUser(res)
+      res && setIsLogin(true)
+      setUser(res)
+      fetchFavorites();
+    });
   }, []);
 
   const contextValue = {
@@ -171,7 +186,8 @@ const PlayerContextProvider = (props) => {
     removeFavorite,
     repeat,
     seekBarFullScreen,
-    progress
+    progress,
+    songifyUser
   };
   return (
     <PlayerContext.Provider value={contextValue}>

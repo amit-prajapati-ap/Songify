@@ -1,4 +1,6 @@
+import { toastOptions } from "@/constants";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const login = ({username, password}) => {
   try {
@@ -57,5 +59,69 @@ export const logout = ({token}) => {
   } catch (error) {
     const {data} = error.response
     console.log(data.message)
+  }
+};
+
+export const loginWithLocalStorage = ({username, password}) => {
+  if (!username && !password) {
+    toast.error("Please fill all the fields", toastOptions);
+    return
+  } else {
+    const existingUser = localStorage.getItem("songifyUser");
+    if (existingUser) {
+      const user = JSON.parse(existingUser);
+      if (user.username === username && user.password === password) {
+        user.login = true;
+        localStorage.setItem("songifyUser", JSON.stringify(user));
+        window.location.href = "/";
+      } else {
+        toast.error("Invalid username or password", toastOptions);
+        return null
+      }
+    } else {
+      toast.error("User not found", toastOptions);
+      return null
+    }
+  }
+};
+
+export const signUpWithLocalStorage = ({username, password, name, confirmPassword}) => {
+  if (!username && !password && !name && !confirmPassword) {
+    toast.error("Please fill all the fields", toastOptions);
+    return
+  } else if (!username.includes("@")) {
+    toast.error("Username should starts with @", toastOptions);
+    return
+  } else if (password !== confirmPassword) {
+    toast.error("Passwords do not match", toastOptions);
+    return    
+  } else {
+    const user = {username, password, name, confirmPassword, login: true};
+    localStorage.setItem("songifyUser", JSON.stringify(user));
+    window.location.href = "/";
+  }
+};
+
+export const getUserWithLocalStorage = async () => {
+  const user = localStorage.getItem("songifyUser");
+  const parsedUser = JSON.parse(user);
+  if (parsedUser && parsedUser.login) {
+    return parsedUser;
+  } else {
+    return null;
+  }
+};
+
+export const logoutWithLocalStorage = () => {
+  const user = localStorage.getItem("songifyUser");
+  if (user) {
+    const parsedUser = JSON.parse(user);
+    parsedUser.login = false;
+    localStorage.setItem("songifyUser", JSON.stringify(parsedUser));
+    toast.success("Logged out successfully", toastOptions);
+    return true
+  } else {
+    toast.error("You are not logged in", toastOptions);
+    return false;
   }
 };

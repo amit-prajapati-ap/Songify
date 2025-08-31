@@ -2,6 +2,8 @@ import { assets } from "@/assets/frontend-assets/assets";
 import { ChevronLeft, Heart, MoreHorizontalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FullScreenMenu } from ".";
+import { toast } from "react-toastify";
+import { toastOptions } from "@/constants";
 
 const FullScreenPlayer = ({
   track,
@@ -21,7 +23,8 @@ const FullScreenPlayer = ({
   repeat,
   disableFullScreen,
   seekBarFullScreen,
-  progress
+  progress,
+  songifyUser,
 }) => {
   const [toggleToLyrics, setToggleToLyrics] = useState(false);
 
@@ -30,6 +33,10 @@ const FullScreenPlayer = ({
     if (favorite.toString()) {
       removeFavorite(favorite);
     } else {
+      if (songifyUser === null) {
+        toast.error("You are not logged in", toastOptions);
+        return
+      };
       addFavorite(track.id);
     }
   };

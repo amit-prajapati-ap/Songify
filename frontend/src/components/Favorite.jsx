@@ -18,7 +18,8 @@ import { Button } from "@/components/ui/button";
 const Favorite = () => {
   const [filteredfavorites, setFilteredfavorites] = useState([]);
   const { playWithId } = useContext(PlayerContext);
-  const { favorites, removeFavorite, pause } = useContext(PlayerContext);
+  const { favorites, removeFavorite, pause, songifyUser } =
+    useContext(PlayerContext);
 
   const handleRemoveFavorite = (songId) => {
     removeFavorite(songId);
@@ -26,13 +27,15 @@ const Favorite = () => {
   };
 
   useEffect(() => {
-    let foundFavorites = favorites
-      .map((id) => songsData.find((song) => song.id === id))
-      .filter(Boolean); // remove undefined if an id doesn't exist
+    if (songifyUser) {
+      let foundFavorites = favorites
+        .map((id) => songsData.find((song) => song.id === id))
+        .filter(Boolean); // remove undefined if an id doesn't exist
 
-    console.log(foundFavorites);
+      console.log(foundFavorites);
 
-    setFilteredfavorites(foundFavorites.reverse());
+      setFilteredfavorites(foundFavorites.reverse());
+    }
   }, [favorites, songsData]);
   return (
     <>
@@ -53,11 +56,7 @@ const Favorite = () => {
         >
           <p className="text-white flex items-center col-span-3 min-[500px]:col-span-2 md:col-span-5">
             <b className="mr-4 text-gray-shade-1">{index + 1}</b>
-            <img
-              src={song.image}
-              className="w-10 mr-5 inline"
-              alt=""
-            />
+            <img src={song.image} className="w-10 mr-5 inline" alt="" />
             <p className="line-clamp-1">{song.name}</p>
           </p>
           <p className="text-[15px] justify-self-end max-[500px]:hidden">
@@ -87,7 +86,11 @@ const Favorite = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => handleRemoveFavorite(song.id)}>Continue</AlertDialogAction>
+                  <AlertDialogAction
+                    onClick={() => handleRemoveFavorite(song.id)}
+                  >
+                    Continue
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

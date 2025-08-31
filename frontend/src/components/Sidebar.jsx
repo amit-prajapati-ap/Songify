@@ -29,7 +29,7 @@ const Sidebar = () => {
   const {
     logout,
     isLogin,
-    user,
+    songifyUser,
     playWithId,
     play,
     pause,
@@ -63,9 +63,9 @@ const Sidebar = () => {
           </SheetTrigger>
           <SheetContent side="left" className={'max-[450px]:w-full'}>
             <SheetHeader className={'bg-gradient-to-r from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a]'}>
-              <SheetTitle className={"text-2xl"}>{user.name}</SheetTitle>
+              <SheetTitle className={"text-2xl"}>{songifyUser?.name}</SheetTitle>
               <SheetTitle className={"text-gray-300 text-lg leading-3"}>
-                Username: {user.username}
+                Username: {songifyUser?.username}
               </SheetTitle>
             </SheetHeader>
             <h1 className="text-2xl text-gray-100 px-4">Recents</h1>

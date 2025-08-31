@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PlayerContext } from "@/context/PlayerContext";
+import { signUpWithLocalStorage } from "@/api/auth_api";
 
 const Profile = () => {
   const [username, setUsername] = useState("");
@@ -26,11 +27,9 @@ const Profile = () => {
     e.preventDefault();
 
     if (isLoginOption) {
-      login();
+      login({username, password});
     } else {
-      if (password === confirmPassword) {
-        login();
-      }
+      signUpWithLocalStorage({username, password, name, confirmPassword});
     }
   };
 
